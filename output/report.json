@@ -1,0 +1,90 @@
+{
+  "summary": {
+    "total_entries": 12,
+    "passed": 5,
+    "failed": 7,
+    "pass_rate": "41.67%"
+  },
+  "violations_by_rule": {
+    "battery_minimum": 4,
+    "battery_critical": 3,
+    "speed_limit": 1,
+    "speed_non_negative": 1,
+    "no_movement_when_critical": 2,
+    "robot_id_format": 1
+  },
+  "robots": {
+    "ROBOT_001": { "status": "PASS", "entries": 3, "violations": 0 },
+    "ROBOT_002": { "status": "FAIL", "entries": 3, "violations": 3 },
+    "ROBOT_003": { "status": "FAIL", "entries": 2, "violations": 1 },
+    "ROBOT_004": { "status": "FAIL", "entries": 2, "violations": 4 },
+    "ROBOT_005": { "status": "FAIL", "entries": 1, "violations": 1 },
+    "INVALID_BOT": { "status": "FAIL", "entries": 1, "violations": 1 }
+  },
+  "violations": [
+    {
+      "timestamp": "2024-01-15T10:02:00Z",
+      "robot_id": "ROBOT_002",
+      "rule_id": "battery_minimum",
+      "severity": "warning",
+      "message": "Battery level below minimum safe threshold (20%)"
+    },
+    {
+      "timestamp": "2024-01-15T10:03:00Z",
+      "robot_id": "ROBOT_002",
+      "rule_id": "battery_critical",
+      "severity": "critical",
+      "message": "Battery level critically low (<10%)"
+    },
+    {
+      "timestamp": "2024-01-15T10:03:00Z",
+      "robot_id": "ROBOT_002",
+      "rule_id": "no_movement_when_critical",
+      "severity": "critical",
+      "message": "Robot is moving with critical battery level"
+    },
+    {
+      "timestamp": "2024-01-15T10:04:00Z",
+      "robot_id": "ROBOT_003",
+      "rule_id": "speed_limit",
+      "severity": "error",
+      "message": "Speed exceeds maximum allowed limit (100)"
+    },
+    {
+      "timestamp": "2024-01-15T10:07:00Z",
+      "robot_id": "ROBOT_004",
+      "rule_id": "battery_critical",
+      "severity": "critical",
+      "message": "Battery level critically low (<10%)"
+    },
+    {
+      "timestamp": "2024-01-15T10:07:00Z",
+      "robot_id": "ROBOT_004",
+      "rule_id": "no_movement_when_critical",
+      "severity": "critical",
+      "message": "Robot is moving with critical battery level"
+    },
+    {
+      "timestamp": "2024-01-15T10:08:00Z",
+      "robot_id": "ROBOT_004",
+      "rule_id": "battery_critical",
+      "severity": "critical",
+      "message": "Battery level critically low (<10%)"
+    },
+    {
+      "timestamp": "2024-01-15T10:09:00Z",
+      "robot_id": "ROBOT_005",
+      "rule_id": "speed_non_negative",
+      "severity": "error",
+      "message": "Speed value is negative (invalid)"
+    },
+    {
+      "timestamp": "2024-01-15T10:10:00Z",
+      "robot_id": "INVALID_BOT",
+      "rule_id": "robot_id_format",
+      "severity": "warning",
+      "message": "Robot ID does not match expected format (ROBOT_XXX)"
+    }
+  ],
+  "generated_at": "2024-01-15T10:15:00Z"
+}

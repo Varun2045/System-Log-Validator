@@ -1,89 +1,33 @@
-# System Log Validator
+<h1 align="center"><strong>System Log Validator</strong></h1>
 
-A Python CLI-first tool for validating robot/system logs against configurable safety rules defined in JSON.
+<h3 align="center">Python CLI–First Safety Rule Validation Engine</h3>
 
-## Features
+<p align="center">
+🔗 <a href="https://system-log-validator.vercel.app/">System Log Validator</a>
+</p>
 
-- **Streaming validation** — process logs line-by-line without loading everything into memory
-- **JSON-based rule engine** — extensible rules with 12+ operators including conditional rules
-- **Real-time alerts** — console warnings when rules are violated
-- **JSON reports** — detailed output with per-robot PASS/FAIL status and violation summaries
-- **Demo UI** — minimal web interface for quick validation demos
+<p>
+<strong>System Log Validator</strong> is a Python CLI-first tool for validating robot and system logs against configurable safety rules defined in JSON.  
+It processes logs in a streaming manner, generates real-time alerts for violations, and produces structured PASS/FAIL reports. A minimal web UI is included for demo purposes.
+</p>
 
-## Quick Start
+<h3><strong>Features</strong></h3>
 
-### CLI Usage
+- **Streaming validation** to process logs line-by-line without loading entire files into memory  
+- **JSON-based rule engine** with extensible operators and conditional rules  
+- **Real-time alerts** for safety violations during validation  
+- **Detailed JSON reports** with per-robot PASS/FAIL status and violation summaries  
+- **Demo UI** for quick validation and visualization (core logic remains CLI-based)
 
-```sh
-cd python-validator
-pip install -r requirements.txt
+<h3><strong>Tech Stack</strong></h3>
 
-# Run validation
-python -m src.cli -i ../samples/sample_logs.json -r ../samples/sample_rules.json -o report.json
+- **Python 3.x** (CLI-first backend)  
+- **Custom JSON Rule Engine**  
+- **Streaming Log Processing**  
+- **React (TypeScript)** — demo UI only  
+- **Tailwind CSS & shadcn/ui**  
+- **Vercel Deployment** (UI)
 
-# Stream mode with verbose output
-python -m src.cli -i logs.json -r rules.json --stream -v
-```
-
-### Web UI (Demo)
-
-```sh
-npm install
-npm run dev
-```
-
-Open the browser and use the "Use Sample Files" button to run a demo validation.
-
-## Project Structure
-
-```
-├── python-validator/
-│   ├── src/
-│   │   ├── cli.py          # CLI entry point
-│   │   ├── parser.py       # Log file parser (JSON/JSONL)
-│   │   ├── rule_engine.py  # Extensible rule engine
-│   │   ├── validator.py    # Streaming validator
-│   │   ├── alerts.py       # Real-time console alerts
-│   │   └── reporter.py     # JSON report generator
-│   ├── rules/
-│   │   └── safety_rules.json
-│   └── tests/
-├── samples/
-│   ├── sample_logs.json
-│   └── sample_rules.json
-├── output/
-│   └── report.json         # Example output
-└── src/                    # Web UI (React/TypeScript)
-```
-
-## Rule Engine
-
-Rules are defined in JSON with support for:
-
-- Comparison operators: `>=`, `<=`, `>`, `<`, `==`, `!=`
-- Collection operators: `in`, `not_in`
-- Pattern matching: `regex`
-- Existence checks: `exists`
-- Conditional rules: `if condition then check`
-
-Example rule:
-
-```json
-{
-  "id": "battery_minimum",
-  "field": "battery_level",
-  "operator": ">=",
-  "threshold": 20,
-  "severity": "warning",
-  "message": "Battery level below minimum safe threshold (20%)"
-}
-```
-
-## Technologies
-
-- **Backend**: Python 3.x (CLI-first)
-- **Frontend**: React, TypeScript, Tailwind CSS, shadcn/ui (demo UI only)
-
-## License
-
-MIT
+<p align="center">
+ <img width="1907" height="858" alt="image" src="https://github.com/user-attachments/assets/869628e0-b30a-4731-8d72-06242c32782a" />
+</p>

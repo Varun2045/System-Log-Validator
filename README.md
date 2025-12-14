@@ -1,73 +1,89 @@
-# Welcome to your Lovable project
+# System Log Validator
 
-## Project info
+A Python CLI-first tool for validating robot/system logs against configurable safety rules defined in JSON.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Features
 
-## How can I edit this code?
+- **Streaming validation** — process logs line-by-line without loading everything into memory
+- **JSON-based rule engine** — extensible rules with 12+ operators including conditional rules
+- **Real-time alerts** — console warnings when rules are violated
+- **JSON reports** — detailed output with per-robot PASS/FAIL status and violation summaries
+- **Demo UI** — minimal web interface for quick validation demos
 
-There are several ways of editing your application.
+## Quick Start
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### CLI Usage
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+cd python-validator
+pip install -r requirements.txt
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Run validation
+python -m src.cli -i ../samples/sample_logs.json -r ../samples/sample_rules.json -o report.json
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Stream mode with verbose output
+python -m src.cli -i logs.json -r rules.json --stream -v
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### Web UI (Demo)
+
+```sh
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open the browser and use the "Use Sample Files" button to run a demo validation.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Project Structure
 
-**Use GitHub Codespaces**
+```
+├── python-validator/
+│   ├── src/
+│   │   ├── cli.py          # CLI entry point
+│   │   ├── parser.py       # Log file parser (JSON/JSONL)
+│   │   ├── rule_engine.py  # Extensible rule engine
+│   │   ├── validator.py    # Streaming validator
+│   │   ├── alerts.py       # Real-time console alerts
+│   │   └── reporter.py     # JSON report generator
+│   ├── rules/
+│   │   └── safety_rules.json
+│   └── tests/
+├── samples/
+│   ├── sample_logs.json
+│   └── sample_rules.json
+├── output/
+│   └── report.json         # Example output
+└── src/                    # Web UI (React/TypeScript)
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Rule Engine
 
-## What technologies are used for this project?
+Rules are defined in JSON with support for:
 
-This project is built with:
+- Comparison operators: `>=`, `<=`, `>`, `<`, `==`, `!=`
+- Collection operators: `in`, `not_in`
+- Pattern matching: `regex`
+- Existence checks: `exists`
+- Conditional rules: `if condition then check`
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Example rule:
 
-## How can I deploy this project?
+```json
+{
+  "id": "battery_minimum",
+  "field": "battery_level",
+  "operator": ">=",
+  "threshold": 20,
+  "severity": "warning",
+  "message": "Battery level below minimum safe threshold (20%)"
+}
+```
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Technologies
 
-## Can I connect a custom domain to my Lovable project?
+- **Backend**: Python 3.x (CLI-first)
+- **Frontend**: React, TypeScript, Tailwind CSS, shadcn/ui (demo UI only)
 
-Yes, you can!
+## License
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+MIT

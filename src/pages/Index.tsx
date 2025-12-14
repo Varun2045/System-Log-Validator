@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Upload, CheckCircle, XCircle, FileJson, Terminal, Zap } from "lucide-react";
+import { CheckCircle, XCircle, FileJson, Terminal, Zap, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -28,6 +28,22 @@ const Index = () => {
     const file = e.target.files?.[0] || null;
     setter(file);
     setResult(null);
+  }, []);
+
+  const loadSampleFiles = useCallback(async () => {
+    try {
+      const [logsRes, rulesRes] = await Promise.all([
+        fetch("/samples/sample_logs.json"),
+        fetch("/samples/sample_rules.json"),
+      ]);
+      const logsBlob = await logsRes.blob();
+      const rulesBlob = await rulesRes.blob();
+      setLogFile(new File([logsBlob], "sample_logs.json", { type: "application/json" }));
+      setRulesFile(new File([rulesBlob], "sample_rules.json", { type: "application/json" }));
+      setResult(null);
+    } catch {
+      console.error("Failed to load sample files");
+    }
   }, []);
 
   const simulateValidation = useCallback(async () => {
@@ -148,8 +164,12 @@ const Index = () => {
           />
         </div>
 
-        {/* Validate Button */}
-        <div className="mb-12 flex justify-center">
+        {/* Action Buttons */}
+        <div className="mb-12 flex flex-wrap justify-center gap-4">
+          <Button variant="outline" onClick={loadSampleFiles} className="gap-2">
+            <FileText className="h-4 w-4" />
+            Use Sample Files
+          </Button>
           <Button
             size="lg"
             disabled={!logFile || !rulesFile || isValidating}

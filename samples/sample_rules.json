@@ -1,0 +1,94 @@
+{
+  "version": "1.0.0",
+  "description": "Safety rules for robot system log validation",
+  "rules": [
+    {
+      "id": "battery_minimum",
+      "name": "Minimum Battery Level",
+      "description": "Battery must be at least 20% for safe operation",
+      "field": "battery_level",
+      "operator": ">=",
+      "threshold": 20,
+      "severity": "warning",
+      "message": "Battery level below minimum safe threshold (20%)"
+    },
+    {
+      "id": "battery_critical",
+      "name": "Critical Battery Level",
+      "description": "Battery below 10% is critical",
+      "field": "battery_level",
+      "operator": ">=",
+      "threshold": 10,
+      "severity": "critical",
+      "message": "Battery level critically low (<10%)"
+    },
+    {
+      "id": "speed_limit",
+      "name": "Maximum Speed Limit",
+      "description": "Speed must not exceed 100 units",
+      "field": "speed",
+      "operator": "<=",
+      "threshold": 100,
+      "severity": "error",
+      "message": "Speed exceeds maximum allowed limit (100)"
+    },
+    {
+      "id": "speed_non_negative",
+      "name": "Non-negative Speed",
+      "description": "Speed cannot be negative",
+      "field": "speed",
+      "operator": ">=",
+      "threshold": 0,
+      "severity": "error",
+      "message": "Speed value is negative (invalid)"
+    },
+    {
+      "id": "movement_state_valid",
+      "name": "Valid Movement State",
+      "description": "Movement state must be one of the allowed values",
+      "field": "movement_state",
+      "operator": "in",
+      "threshold": ["idle", "moving", "stopped", "charging", "error"],
+      "severity": "error",
+      "message": "Invalid movement state detected"
+    },
+    {
+      "id": "no_movement_when_critical",
+      "name": "No Movement When Battery Critical",
+      "description": "Robot should not be moving when battery is below 10%",
+      "type": "conditional",
+      "condition": {
+        "field": "battery_level",
+        "operator": "<",
+        "value": 10
+      },
+      "then": {
+        "field": "movement_state",
+        "operator": "in",
+        "value": ["idle", "stopped", "charging"]
+      },
+      "severity": "critical",
+      "message": "Robot is moving with critical battery level"
+    },
+    {
+      "id": "robot_id_format",
+      "name": "Robot ID Format",
+      "description": "Robot ID must match expected format",
+      "field": "robot_id",
+      "operator": "regex",
+      "threshold": "^ROBOT_[0-9]{3,6}$",
+      "severity": "warning",
+      "message": "Robot ID does not match expected format (ROBOT_XXX)"
+    },
+    {
+      "id": "timestamp_present",
+      "name": "Timestamp Required",
+      "description": "Every log entry must have a timestamp",
+      "field": "timestamp",
+      "operator": "exists",
+      "threshold": true,
+      "severity": "error",
+      "message": "Log entry missing required timestamp field"
+    }
+  ]
+}

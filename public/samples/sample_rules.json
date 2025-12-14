@@ -1,0 +1,68 @@
+{
+  "version": "1.0.0",
+  "description": "Safety rules for robot system log validation",
+  "rules": [
+    {
+      "id": "battery_minimum",
+      "name": "Minimum Battery Level",
+      "field": "battery_level",
+      "operator": ">=",
+      "threshold": 20,
+      "severity": "warning",
+      "message": "Battery level below minimum safe threshold (20%)"
+    },
+    {
+      "id": "battery_critical",
+      "name": "Critical Battery Level",
+      "field": "battery_level",
+      "operator": ">=",
+      "threshold": 10,
+      "severity": "critical",
+      "message": "Battery level critically low (<10%)"
+    },
+    {
+      "id": "speed_limit",
+      "name": "Maximum Speed Limit",
+      "field": "speed",
+      "operator": "<=",
+      "threshold": 100,
+      "severity": "error",
+      "message": "Speed exceeds maximum allowed limit (100)"
+    },
+    {
+      "id": "speed_non_negative",
+      "name": "Non-negative Speed",
+      "field": "speed",
+      "operator": ">=",
+      "threshold": 0,
+      "severity": "error",
+      "message": "Speed value is negative (invalid)"
+    },
+    {
+      "id": "no_movement_when_critical",
+      "name": "No Movement When Battery Critical",
+      "type": "conditional",
+      "condition": {
+        "field": "battery_level",
+        "operator": "<",
+        "value": 10
+      },
+      "then": {
+        "field": "movement_state",
+        "operator": "in",
+        "value": ["idle", "stopped", "charging"]
+      },
+      "severity": "critical",
+      "message": "Robot is moving with critical battery level"
+    },
+    {
+      "id": "robot_id_format",
+      "name": "Robot ID Format",
+      "field": "robot_id",
+      "operator": "regex",
+      "threshold": "^ROBOT_[0-9]{3,6}$",
+      "severity": "warning",
+      "message": "Robot ID does not match expected format (ROBOT_XXX)"
+    }
+  ]
+}
